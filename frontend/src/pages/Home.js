@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 
 const Home = () => {
-  const { t } = useTranslation();
+  useTranslation();
 
   const features = [
     { icon: Globe, title: 'Global Opportunities', description: 'Connect with top employers across the US and Canada directly from Kenya.' },

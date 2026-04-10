@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, []);
+  }, [state.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadUser = async () => {
     try {

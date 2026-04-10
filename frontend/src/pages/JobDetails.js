@@ -29,7 +29,7 @@ const JobDetails = () => {
 
   useEffect(() => {
     fetchJob();
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchJob = async () => {
     try {

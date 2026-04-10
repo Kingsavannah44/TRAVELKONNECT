@@ -28,7 +28,7 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchJobs();
-  }, [currentPage, searchTerm, filters]);
+  }, [currentPage, searchTerm, filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchJobs = async () => {
     setLoading(true);
