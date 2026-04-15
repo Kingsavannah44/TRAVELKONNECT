@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
   Search,
@@ -24,7 +23,6 @@ const Jobs = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { t } = useTranslation();
 
   useEffect(() => {
     fetchJobs();
@@ -79,7 +77,7 @@ const Jobs = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl font-bold gradient-text mb-4">
-            {t('jobs.title')}
+            Truck Driving Jobs in USA & Canada
           </h1>
           <p className="text-xl text-slate-600">
             Find your next truck driving opportunity in the US and Canada
@@ -102,13 +100,13 @@ const Jobs = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder={t('jobs.searchPlaceholder')}
+                    placeholder="Search jobs by title, company..."
                     className="input-field pl-10"
                   />
                 </div>
               </div>
               <button type="submit" className="btn-primary">
-                {t('common.search')}
+                Search
               </button>
             </div>
 
@@ -230,7 +228,7 @@ const Jobs = () => {
                       to={`/jobs/${job._id}`}
                       className="btn-primary text-sm flex items-center"
                     >
-                      {t('jobs.viewDetails')}
+                      View Details
                       <ChevronRight className="h-4 w-4 ml-1" />
                     </Link>
                   </div>
