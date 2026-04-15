@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import DriverDashboard from '../components/DriverDashboard';
@@ -8,7 +7,6 @@ import AdminDashboard from '../components/AdminDashboard';
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const { t } = useTranslation();
 
   const renderDashboard = () => {
     switch (user?.role) {
@@ -37,7 +35,7 @@ const Dashboard = () => {
           className="mb-8"
         >
           <h1 className="text-3xl font-bold text-gray-900">
-            {t('dashboard.welcome')}, {user?.profile?.firstName}!
+            Welcome, {user?.profile?.firstName}!
           </h1>
           <p className="text-gray-600 mt-2">
             {user?.role === 'driver' && 'Manage your applications and profile'}

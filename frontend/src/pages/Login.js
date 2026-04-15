@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -10,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslation();
   const { login } = useAuth();
   const navigate = useNavigate();
   
@@ -21,7 +19,7 @@ const Login = () => {
     try {
       const result = await login(data.email, data.password);
       if (result.success) {
-        toast.success(t('auth.loginSuccess'));
+        toast.success('Login successful!');
         navigate('/dashboard');
       } else {
         toast.error(result.message);
@@ -48,7 +46,7 @@ const Login = () => {
             </div>
           </div>
           <h2 className="text-3xl font-bold gradient-text">
-            {t('auth.login')}
+            Login
           </h2>
           <p className="mt-2 text-slate-600">
             Welcome back to TruckConnect
@@ -64,7 +62,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                {t('auth.email')}
+                Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -88,7 +86,7 @@ const Login = () => {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                {t('auth.password')}
+                Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400" />
@@ -150,7 +148,7 @@ const Login = () => {
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
               ) : (
-                t('auth.login')
+                'Login'
               )}
             </motion.button>
           </form>
@@ -162,7 +160,7 @@ const Login = () => {
                 to="/register"
                 className="font-medium text-primary-600 hover:text-primary-500"
               >
-                {t('auth.register')}
+                Register
               </Link>
             </p>
           </div>

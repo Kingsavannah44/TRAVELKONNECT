@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import {
@@ -19,7 +18,6 @@ import FileUpload from '../components/FileUpload';
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('personal');
   const [loading, setLoading] = useState(false);
   
@@ -84,7 +82,7 @@ const Profile = () => {
 
       const result = await updateProfile(profileData);
       if (result.success) {
-        toast.success(t('profile.updateSuccess'));
+        toast.success('Profile updated successfully!');
       } else {
         toast.error(result.message);
       }
