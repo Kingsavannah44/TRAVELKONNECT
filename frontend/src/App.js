@@ -21,6 +21,7 @@ import Profile from './pages/Profile';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
 import Payment from './pages/Payment';
+import StaticPage from './pages/StaticPage';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient({
@@ -102,6 +103,7 @@ function AppContent() {
             </ProtectedRoute>
           } />
 
+          <Route path="/pages/:pageId" element={<StaticPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

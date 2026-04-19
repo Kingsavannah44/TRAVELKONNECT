@@ -22,14 +22,14 @@ const Footer = () => {
     { name: 'Visa & Work Permit Assistance', path: '/services/visa' },
     { name: 'Professional Driver Training', path: '/services/training' },
     { name: 'Career Counseling', path: '/services/guidance' },
-    { name: '24/7 Multilingual Support', path: '/support' },
+    { name: '24/7 Multilingual Support', path: '/pages/support' },
   ];
 
   const legal = [
-    { name: 'Privacy Policy', path: '/privacy' },
-    { name: 'Terms of Service', path: '/terms' },
-    { name: 'Cookie Policy', path: '/cookies' },
-    { name: 'Refund Policy', path: '/refund' },
+    { name: 'Privacy Policy', path: '/pages/privacy' },
+    { name: 'Terms of Service', path: '/pages/terms' },
+    { name: 'Cookie Policy', path: '/pages/cookies' },
+    { name: 'Refund Policy', path: '/pages/refund' },
   ];
 
   const socialLinks = [
