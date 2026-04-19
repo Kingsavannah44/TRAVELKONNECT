@@ -28,7 +28,7 @@ const Home = () => {
     <div className="min-h-screen bg-gray-950 text-white">
 
       {/* Hero Section */}
-      <section className="relative py-24 px-4 overflow-hidden">
+      <section className="relative py-12 sm:py-24 px-4 overflow-hidden">
         {/* Background layers */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-blue-950 to-gray-900" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(185,28,28,0.15),_transparent_60%)]" />
@@ -40,14 +40,14 @@ const Home = () => {
         />
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-14 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
 
             {/* Left — headline */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-6"
             >
               {/* Badge */}
               <motion.div
@@ -60,7 +60,7 @@ const Home = () => {
                 <span className="text-red-400 text-sm font-medium">#1 Truck Driver Placement Platform</span>
               </motion.div>
 
-              <h1 className="text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight">
                 Connect Kenyan{' '}
                 <span className="text-red-500">Truck Drivers</span>
                 <br />
@@ -89,7 +89,7 @@ const Home = () => {
                 <span className="text-gray-400 text-sm">Opportunities in USA & Canada</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col xs:flex-row sm:flex-row gap-3">
                 <Link to="/register" className="flex items-center justify-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-7 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-red-900/40 hover:shadow-red-900/60 hover:-translate-y-0.5">
                   <span>Get Started Today</span>
                   <ArrowRight className="h-5 w-5" />
@@ -100,7 +100,7 @@ const Home = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-4 gap-4 pt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
                 {stats.map((stat, i) => (
                   <motion.div
                     key={i}

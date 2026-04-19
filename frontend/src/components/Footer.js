@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Truck, Mail, Phone, MapPin, Facebook, Twitter,
-  Instagram, Linkedin, Youtube, Heart, ArrowRight, Shield, Users, Globe, Award
+  Instagram, Linkedin, Youtube, ArrowRight, Shield, Users, Globe, Award
 } from 'lucide-react';
 
 const Footer = () => {
@@ -58,7 +58,7 @@ const Footer = () => {
 
       {/* Stats bar */}
       <div className="bg-blue-800 border-b border-blue-700">
-        <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
@@ -84,7 +84,7 @@ const Footer = () => {
       </div>
 
       {/* Main content */}
-      <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
         {/* Brand */}
         <motion.div
@@ -224,9 +224,9 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-blue-800 bg-blue-950">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
           {/* Social */}
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="text-blue-400 text-sm font-medium">Follow Us:</span>
             {socialLinks.map((social) => {
               const Icon = social.icon;
@@ -247,13 +247,12 @@ const Footer = () => {
             })}
           </div>
 
-          {/* Copyright */}
-          <div className="flex items-center space-x-1.5 text-blue-400 text-sm">
-            <span>© 2026 TruckConnect. Made with</span>
-            <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }}>
-              <Heart className="h-3.5 w-3.5 text-red-500 fill-current" />
-            </motion.div>
-            <span>in Kenya 🇰🇪 for USA 🇺🇸 & Canada 🇨🇦</span>
+          <div className="text-center sm:text-right text-blue-400 text-xs sm:text-sm">
+            <span>© 2026 TruckConnect. Made with </span>
+            <motion.span animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 1.2, repeat: Infinity }} className="inline-block">
+              ❤️
+            </motion.span>
+            <span> in Kenya 🇰🇪 for USA 🇺🇸 & Canada 🇨🇦</span>
           </div>
         </div>
       </div>

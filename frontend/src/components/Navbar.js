@@ -49,11 +49,11 @@ const Navbar = () => {
               <Truck className="h-6 w-6 text-white" />
             </motion.div>
             <div className="flex flex-col leading-tight">
-              <span className="text-xl font-extrabold text-blue-900 tracking-tight">TruckConnect</span>
-              <span className="text-xs text-gray-500 font-medium tracking-wide">Global Opportunities</span>
+              <span className="text-lg sm:text-xl font-extrabold text-blue-900 tracking-tight">TruckConnect</span>
+              <span className="hidden sm:block text-xs text-gray-500 font-medium tracking-wide">Global Opportunities</span>
             </div>
             {/* Flags */}
-            <div className="flex items-center space-x-1.5 ml-2 pl-3 border-l border-gray-200">
+            <div className="hidden sm:flex items-center space-x-1.5 ml-2 pl-3 border-l border-gray-200">
               <motion.img
                 whileHover={{ scale: 1.15 }}
                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 30'%3E%3Crect fill='%23b22234' width='60' height='30'/%3E%3Cpath d='M0,3.5h60m0,3.5H0m0,3.5h60m0,3.5H0m0,3.5h60m0,3.5H0m0,3.5h60' stroke='%23fff' stroke-width='3'/%3E%3Crect fill='%233c3b6e' width='24' height='15'/%3E%3C/svg%3E"
