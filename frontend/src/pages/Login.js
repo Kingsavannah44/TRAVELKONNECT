@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { Eye, EyeOff, Mail, Lock, Truck } from 'lucide-react';
+import { Truck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const navigate = useNavigate();
-  
-  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
     setLoading(true);

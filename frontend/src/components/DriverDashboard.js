@@ -14,14 +14,12 @@ import {
   Upload,
   Bell
 } from 'lucide-react';
-import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 import { useAuth } from '../context/AuthContext';
 
 const DriverDashboard = () => {
   const { user } = useAuth();
   const [applications, setApplications] = useState([]);
-  const [stats, setStats] = useState({});
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 

@@ -12,7 +12,6 @@ import {
   MapPin,
   DollarSign
 } from 'lucide-react';
-import axios from 'axios';
 import LoadingSpinner from './LoadingSpinner';
 
 const EmployerDashboard = () => {

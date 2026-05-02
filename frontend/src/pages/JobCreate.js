@@ -4,14 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
-  Plus,
   Building,
   MapPin,
   DollarSign,
-  FileText,
-  Clock,
-  Briefcase,
-  Award,
   ArrowLeft,
   ArrowRight,
   CheckCircle
@@ -20,11 +15,10 @@ import { useAuth } from '../context/AuthContext';
 
 const JobCreate = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   
-  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm();
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
 
   const steps = [
     { number: 1, title: 'Job Details', description: 'Basic information' },

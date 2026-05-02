@@ -3,8 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   MapPin,
-  DollarSign,
-  Clock,
   Briefcase,
   Building,
   Calendar,
