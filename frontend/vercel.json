@@ -1,5 +1,8 @@
 {
   "buildCommand": "SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS='--no-deprecation' npm run build",
   "outputDirectory": "build",
-  "framework": "create-react-app"
+  "framework": "create-react-app",
+  "env": {
+    "REACT_APP_API_URL": "https://travelkonnect-backend.onrender.com"
+  }
 }
