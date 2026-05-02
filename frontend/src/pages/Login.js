@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { Truck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
   const onSubmit = async (data) => {
