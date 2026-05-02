@@ -1,5 +1,5 @@
 {
-  "buildCommand": "NODE_OPTIONS='--no-deprecation' npm run build",
+  "buildCommand": "SKIP_PREFLIGHT_CHECK=true NODE_OPTIONS='--no-deprecation' npm run build",
   "outputDirectory": "build",
   "framework": "create-react-app"
 }
