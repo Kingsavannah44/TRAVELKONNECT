@@ -8,6 +8,7 @@ const Jobs = () => {
   const [allJobs, setAllJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({ country: '', experience: '', truckType: '' });
+  const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
