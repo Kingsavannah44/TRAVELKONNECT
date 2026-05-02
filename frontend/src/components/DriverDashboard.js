@@ -31,21 +31,43 @@ const DriverDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const [appsRes, notifRes] = await Promise.all([
-        axios.get('/api/applications/my-applications?limit=5'),
-        axios.get('/api/users/notifications?limit=5')
-      ]);
+      // Mock data for development
+      const mockApplications = [
+        {
+          id: 1,
+          job: { title: 'Long Haul Driver', company: 'ABC Logistics' },
+          status: 'pending',
+          appliedAt: '2024-01-15'
+        },
+        {
+          id: 2,
+          job: { title: 'Regional Driver', company: 'XYZ Transport' },
+          status: 'shortlisted',
+          appliedAt: '2024-01-12'
+        }
+      ];
 
-      setApplications(appsRes.data.applications);
-      setNotifications(notifRes.data);
-      
-      // Calculate stats
-      const totalApps = appsRes.data.total;
-      const pending = appsRes.data.applications.filter(app => app.status === 'pending').length;
-      const interviews = appsRes.data.applications.filter(app => app.status === 'interview-scheduled').length;
-      const hired = appsRes.data.applications.filter(app => app.status === 'hired').length;
+      const mockNotifications = [
+        {
+          id: 1,
+          title: 'Application Update',
+          message: 'Your application for Long Haul Driver has been reviewed',
+          type: 'application',
+          read: false,
+          createdAt: '2024-01-15'
+        },
+        {
+          id: 2,
+          title: 'New Job Match',
+          message: 'A new job matches your profile',
+          type: 'job',
+          read: true,
+          createdAt: '2024-01-14'
+        }
+      ];
 
-      setStats({ totalApps, pending, interviews, hired });
+      setApplications(mockApplications);
+      setNotifications(mockNotifications);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {

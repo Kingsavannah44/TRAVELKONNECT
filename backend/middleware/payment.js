@@ -1,4 +1,5 @@
 const Payment = require('../models/Payment');
+const User = require('../models/User');
 
 // Middleware to check if user has paid registration fee (for drivers)
 const requirePayment = async (req, res, next) => {
@@ -12,15 +13,12 @@ const requirePayment = async (req, res, next) => {
     }
 
     // Check if there's a completed payment
-    const payment = await Payment.findOne({
-      userId: req.user.id,
-      status: 'completed',
-      paymentType: 'registration_fee'
-    });
+    const payments = await Payment.findByUserId(req.user.id);
+    const payment = payments.find(p => p.status === 'completed' && p.paymentType === 'registration_fee');
 
     if (payment) {
       // Update user payment status
-      await req.user.constructor.findByIdAndUpdate(req.user.id, {
+      await User.findByIdAndUpdate(req.user.id, {
         paymentStatus: 'paid',
         paymentDetails: {
           transactionId: payment.transactionId,

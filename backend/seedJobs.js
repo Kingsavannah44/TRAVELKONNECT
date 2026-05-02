@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const Job = require('./models/Job');
+const supabase = require('./config/supabase');
 const User = require('./models/User');
 require('dotenv').config();
 
@@ -187,13 +186,13 @@ const sampleJobs = [
 
 async function seedJobs() {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('Connected to MongoDB');
+    console.log('Connected to Supabase');
 
     // Create a sample employer user if none exists
-    let employer = await User.findOne({ role: 'employer' });
+    const users = await User.find();
+    let employer = users.find(u => u.role === 'employer');
     if (!employer) {
-      employer = new User({
+      employer = await User.create({
         email: 'employer@example.com',
         password: 'password123',
         role: 'employer',
@@ -210,24 +209,12 @@ async function seedJobs() {
           verificationStatus: 'verified'
         }
       });
-      await employer.save();
       console.log('Sample employer created');
     }
 
-    // Clear existing jobs
-    await Job.deleteMany({});
-    console.log('Cleared existing jobs');
-
-    // Add employer ID to all jobs
-    const jobsWithEmployer = sampleJobs.map(job => ({
-      ...job,
-      employer: employer._id,
-      applicationsCount: Math.floor(Math.random() * 15) + 1
-    }));
-
-    // Insert sample jobs
-    await Job.insertMany(jobsWithEmployer);
-    console.log(`Added ${sampleJobs.length} sample jobs`);
+    // TODO: Seed jobs - requires Job model conversion
+    // For now, jobs seeding is commented out
+    console.log('Job seeding not implemented yet');
 
     console.log('Database seeded successfully!');
     process.exit(0);

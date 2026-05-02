@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const navItems = [
     { path: '/', label: t('nav.home'), icon: Home },
-    { path: '/jobs', label: t('nav.jobs'), icon: Briefcase },
+    ...(isAuthenticated ? [{ path: '/jobs', label: t('nav.jobs'), icon: Briefcase }] : []),
   ];
 
   const authItems = isAuthenticated ? [

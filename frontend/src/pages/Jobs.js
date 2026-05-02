@@ -1,50 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, DollarSign, Clock, Briefcase, ChevronRight, AlertCircle } from 'lucide-react';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [allJobs, setAllJobs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({ country: '', experience: '', truckType: '' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch jobs from API
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Build query parameters for API call
+        const params = new URLSearchParams();
+        if (filters.country) params.append('country', filters.country);
+        if (filters.truckType) params.append('truckType', filters.truckType);
+        if (searchTerm) params.append('search', searchTerm);
+
+        const response = await fetch(`/api/jobs?${params.toString()}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch jobs');
+        }
+
+        const data = await response.json();
+        setAllJobs(data.jobs || []);
+      } catch (err) {
+        console.error('Error fetching jobs:', err);
+        setError('Failed to load jobs. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, [searchTerm, filters]);
+
+  // Apply client-side filtering for experience
+  const filteredJobs = useMemo(() => {
+    return allJobs.filter(job => {
+      const matchesExperience = !filters.experience || (job.requirements?.experience || 0) <= parseInt(filters.experience);
+      return matchesExperience;
+    });
+  }, [allJobs, filters.experience]);
 
   useEffect(() => {
-    fetchJobs();
-  }, [currentPage, filters]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchJobs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const params = new URLSearchParams({ page: currentPage, limit: 12 });
-      if (searchTerm) params.append('search', searchTerm);
-      if (filters.country) params.append('country', filters.country);
-      if (filters.experience) params.append('experience', filters.experience);
-      if (filters.truckType) params.append('truckType', filters.truckType);
-
-      const baseURL = process.env.REACT_APP_API_URL || '';
-      const res = await fetch(`${baseURL}/api/jobs?${params}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      setJobs(data.jobs || []);
-      setTotalPages(data.totalPages || 1);
-    } catch (err) {
-      console.error('Error fetching jobs:', err);
-      setError('Failed to load jobs. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
+    setJobs(filteredJobs);
+  }, [filteredJobs]);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setCurrentPage(1);
-    fetchJobs();
   };
 
   const formatSalary = (job) => {
@@ -123,24 +136,37 @@ const Jobs = () => {
           </form>
         </motion.div>
 
-        {/* Error */}
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-16">
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-red-500 border-t-transparent mx-auto mb-4"></div>
+            <p className="text-gray-400">Loading jobs...</p>
+          </div>
+        )}
+
+        {/* Error State */}
         {error && (
-          <div className="flex items-center space-x-3 bg-red-900/30 border border-red-700/40 rounded-xl p-4 mb-6">
-            <AlertCircle className="h-5 w-5 text-red-400 shrink-0" />
-            <p className="text-red-300">{error}</p>
+          <div className="text-center py-16">
+            <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">Error Loading Jobs</h3>
+            <p className="text-gray-400 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-medium transition-all"
+            >
+              Try Again
+            </button>
           </div>
         )}
 
         {/* Jobs */}
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
+        {!loading && !error && (
           <>
             <p className="text-gray-400 mb-6 text-sm">{jobs.length} job{jobs.length !== 1 ? 's' : ''} found</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {jobs.map((job, index) => (
+          {jobs.map((job, index) => (
                 <motion.div
-                  key={job._id}
+                  key={job.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
@@ -185,9 +211,9 @@ const Jobs = () => {
                   )}
 
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
-                    <span className="text-xs text-gray-500">{job.applicationsCount || 0} applicants</span>
+                    <span className="text-xs text-gray-500">{job.applications_count || 0} applicants</span>
                     <Link
-                      to={`/jobs/${job._id}`}
+                      to={`/jobs/${job.id}`}
                       className="flex items-center space-x-1 bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition-all"
                     >
                       <span>View Details</span>
@@ -198,24 +224,7 @@ const Jobs = () => {
               ))}
             </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="flex justify-center space-x-2">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      currentPage === page ? 'bg-red-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {jobs.length === 0 && !error && (
+            {jobs.length === 0 && (
               <div className="text-center py-16">
                 <Briefcase className="h-16 w-16 text-gray-700 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-white mb-2">No jobs found</h3>

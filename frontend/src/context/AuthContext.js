@@ -52,30 +52,69 @@ const authReducer = (state, action) => {
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Set auth token in axios headers
+  // Configure axios globally
   useEffect(() => {
+    // Set default axios configuration
+    axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    axios.defaults.withCredentials = true;
+
+    // Set auth token in axios headers
     if (state.token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
     } else {
       delete axios.defaults.headers.common['Authorization'];
     }
+
+    // Add response interceptor to handle auth errors
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          // Token expired or invalid
+          logout();
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
   }, [state.token]);
 
   // Load user on app start
   useEffect(() => {
-    if (state.token) {
-      loadUser();
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        // Validate token format and expiration
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = payload.exp * 1000 < Date.now();
+
+        if (isExpired) {
+          localStorage.removeItem('token');
+          dispatch({ type: 'SET_LOADING', payload: false });
+        } else {
+          loadUser();
+        }
+      } catch (error) {
+        localStorage.removeItem('token');
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
     } else {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  }, [state.token]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadUser = async () => {
     try {
       const res = await axios.get('/api/auth/me');
       dispatch({ type: 'USER_LOADED', payload: res.data });
     } catch (error) {
-      dispatch({ type: 'AUTH_ERROR' });
+      // Clear invalid token
+      localStorage.removeItem('token');
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
 
@@ -83,26 +122,28 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post('/api/auth/login', { email, password });
       dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
-      return { success: true };
+      return { success: true, user: res.data.user };
     } catch (error) {
       dispatch({ type: 'AUTH_ERROR' });
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Login failed' 
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Login failed'
       };
     }
   };
 
   const register = async (userData) => {
+    console.log('Sending userData:', userData);
     try {
       const res = await axios.post('/api/auth/register', userData);
       dispatch({ type: 'REGISTER_SUCCESS', payload: res.data });
       return { success: true };
     } catch (error) {
+      console.error('Registration error response:', error.response?.data);
       dispatch({ type: 'AUTH_ERROR' });
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Registration failed' 
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Registration failed'
       };
     }
   };

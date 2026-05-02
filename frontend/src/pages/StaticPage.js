@@ -31,7 +31,7 @@ const pages = {
       },
       {
         heading: 'Contact Us',
-        content: 'If you have questions about this Privacy Policy, please contact us at shadsbrian@gmail.com or call +254 715 970 249.'
+        content: 'If you have questions about this Privacy Policy, please contact us at shadsbrian@gmail.com, call +254 715 970 249, or message us on WhatsApp.'
       }
     ]
   },
@@ -112,7 +112,7 @@ const pages = {
       },
       {
         heading: 'How to Request a Refund',
-        content: 'To request a refund, contact us within 7 days of payment at shadsbrian@gmail.com with your transaction ID, phone number used for payment, and reason for the refund request.'
+        content: 'To request a refund, contact us within 7 days of payment at shadsbrian@gmail.com, call +254 715 970 249, or message us on WhatsApp with your transaction ID, phone number used for payment, and reason for the refund request.'
       },
       {
         heading: 'Processing Time',
@@ -124,7 +124,7 @@ const pages = {
       },
       {
         heading: 'Contact for Refunds',
-        content: 'For all refund inquiries, contact our support team at shadsbrian@gmail.com or +254 715 970 249. We aim to resolve all refund requests within 3 business days.'
+        content: 'For all refund inquiries, contact our support team at shadsbrian@gmail.com, call +254 715 970 249, or message us on WhatsApp. We aim to resolve all refund requests within 3 business days.'
       }
     ]
   },
@@ -135,7 +135,7 @@ const pages = {
     sections: [
       {
         heading: 'Contact Us',
-        content: 'Our support team is available around the clock to assist you. Reach us via email at shadsbrian@gmail.com or call +254 715 970 249.'
+        content: 'Our support team is available around the clock to assist you. Reach us via email at shadsbrian@gmail.com, call +254 715 970 249, or message us on WhatsApp.'
       },
       {
         heading: 'Driver Support',

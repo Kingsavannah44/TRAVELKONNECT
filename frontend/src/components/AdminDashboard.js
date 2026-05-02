@@ -26,17 +26,25 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      // Simulate API calls for admin data
-      const mockStats = {
-        totalUsers: 1247,
-        totalJobs: 89,
-        totalApplications: 456,
-        pendingVerifications: 23,
-        activeDrivers: 892,
-        activeEmployers: 67,
-        successRate: 85
-      };
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/users/admin/dashboard', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to fetch dashboard data');
+      }
+
+      const data = await response.json();
+
+      // Set stats with API data
+      const { totalUsers, totalJobs, activeJobs, totalApplications, newApplications } = data;
+      setStats({ totalUsers, totalJobs, activeJobs, totalApplications, newApplications });
+
+      // For now, keep mock data for chart, pie, and recent users
+      // TODO: Implement API endpoints for these
       const mockChartData = [
         { month: 'Jan', users: 65, jobs: 12, applications: 45 },
         { month: 'Feb', users: 89, jobs: 18, applications: 67 },
@@ -58,7 +66,6 @@ const AdminDashboard = () => {
         { id: 3, name: 'Jane Smith', email: 'jane@example.com', role: 'driver', status: 'pending', joinDate: '2024-01-13' }
       ];
 
-      setStats(mockStats);
       setChartData(mockChartData);
       setPieData(mockPieData);
       setRecentUsers(mockRecentUsers);
@@ -81,7 +88,7 @@ const AdminDashboard = () => {
     },
     {
       title: 'Active Jobs',
-      value: stats.totalJobs || 0,
+      value: stats.activeJobs || 0,
       icon: Briefcase,
       color: 'from-green-500 to-green-600',
       change: '+8%'
@@ -94,11 +101,11 @@ const AdminDashboard = () => {
       change: '+25%'
     },
     {
-      title: 'Pending Verifications',
-      value: stats.pendingVerifications || 0,
+      title: 'New Applications',
+      value: stats.newApplications || 0,
       icon: AlertTriangle,
       color: 'from-orange-500 to-orange-600',
-      change: '-5%'
+      change: '+10%'
     }
   ];
 

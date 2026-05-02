@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
+const Job = require('../models/Job');
+const Application = require('../models/Application');
 const { auth, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -121,6 +123,27 @@ router.put('/admin/verify/:userId', auth, authorize('admin'), async (req, res) =
     res.json({ message: 'User verification status updated' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Admin: Get dashboard stats
+router.get('/admin/dashboard', auth, authorize('admin'), async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+    const totalJobs = await Job.countDocuments();
+    const activeJobs = await Job.countDocuments({ status: 'active' });
+    const totalApplications = await Application.countDocuments();
+    const newApplications = await Application.countDocuments({ status: 'pending' }); // Assuming pending are new
+
+    res.json({
+      totalUsers,
+      totalJobs,
+      activeJobs,
+      totalApplications,
+      newApplications
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
 

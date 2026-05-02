@@ -89,15 +89,15 @@ const Home = () => {
                 <span className="text-gray-400 text-sm">Opportunities in USA & Canada</span>
               </div>
 
-              <div className="flex flex-col xs:flex-row sm:flex-row gap-3">
-                <Link to="/register" className="flex items-center justify-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-7 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-red-900/40 hover:shadow-red-900/60 hover:-translate-y-0.5">
-                  <span>Get Started Today</span>
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-                <Link to="/jobs" className="flex items-center justify-center space-x-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white px-7 py-3.5 rounded-xl font-semibold transition-all duration-200 hover:-translate-y-0.5">
-                  <span>Browse Jobs</span>
-                </Link>
-              </div>
+               <div className="flex flex-col xs:flex-row sm:flex-row gap-3">
+                 <Link to="/register" className="flex items-center justify-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-7 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-lg shadow-red-900/40 hover:shadow-red-900/60 hover:-translate-y-0.5">
+                   <span>Get Started Today</span>
+                   <ArrowRight className="h-5 w-5" />
+                 </Link>
+                 <Link to="/login" className="flex items-center justify-center space-x-2 bg-white/5 hover:bg-white/10 border border-white/20 text-white px-7 py-3.5 rounded-xl font-semibold transition-all duration-200 hover:-translate-y-0.5">
+                   <span>Login to Browse Jobs</span>
+                 </Link>
+               </div>
 
               {/* Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">

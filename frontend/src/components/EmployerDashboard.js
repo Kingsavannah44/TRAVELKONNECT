@@ -27,6 +27,48 @@ const EmployerDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
+      // Use mock data for now
+      const mockJobs = [
+        {
+          _id: '1',
+          title: 'Truck Driver Needed',
+          location: { city: 'Nairobi', country: 'Kenya' },
+          salary: { min: 50000, max: 70000 },
+          applicationsCount: 12,
+          createdAt: new Date().toISOString(),
+          status: 'active'
+        },
+        {
+          _id: '2',
+          title: 'Heavy Duty Driver',
+          location: { city: 'Mombasa', country: 'Kenya' },
+          salary: { min: 60000, max: 80000 },
+          applicationsCount: 8,
+          createdAt: new Date().toISOString(),
+          status: 'active'
+        }
+      ];
+      const mockApplications = [
+        {
+          _id: '1',
+          driver: { profile: { firstName: 'John', lastName: 'Doe' } },
+          job: { title: 'Truck Driver Needed' },
+          createdAt: new Date().toISOString()
+        },
+        {
+          _id: '2',
+          driver: { profile: { firstName: 'Jane', lastName: 'Smith' } },
+          job: { title: 'Heavy Duty Driver' },
+          createdAt: new Date().toISOString()
+        }
+      ];
+
+      setJobs(mockJobs);
+      setApplications(mockApplications);
+      setStats({ totalJobs: 2, activeJobs: 2, totalApplications: 2, newApplications: 2 });
+
+      // Uncomment below to use real API when backend is ready
+      /*
       const [jobsRes, appsRes] = await Promise.all([
         axios.get('/api/jobs/employer/my-jobs?limit=5'),
         axios.get('/api/applications/employer/applications?limit=5')
@@ -34,7 +76,7 @@ const EmployerDashboard = () => {
 
       setJobs(jobsRes.data.jobs);
       setApplications(appsRes.data.applications);
-      
+
       // Calculate stats
       const totalJobs = jobsRes.data.total;
       const activeJobs = jobsRes.data.jobs.filter(job => job.status === 'active').length;
@@ -42,6 +84,7 @@ const EmployerDashboard = () => {
       const newApplications = appsRes.data.applications.filter(app => app.status === 'pending').length;
 
       setStats({ totalJobs, activeJobs, totalApplications, newApplications });
+      */
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {

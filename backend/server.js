@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
+const supabase = require('./config/supabase');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
@@ -14,11 +14,20 @@ const paymentRoutes = require('./routes/payments');
 
 const app = express();
 
-// Security middleware
-app.use(helmet());
+
+// CORS configuration - must come before other middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
-  credentials: true
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  exposedHeaders: ['Authorization'],
+  optionsSuccessStatus: 200,
+  preflightContinue: false
+}));
+
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
 // Rate limiting
@@ -33,9 +42,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+console.log('Supabase connected');
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -44,6 +51,11 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/payments', paymentRoutes);
+
+// Handle all other OPTIONS requests (CORS preflight)
+app.options('*', (req, res) => {
+  res.status(200).send();
+});
 
 // Health check
 app.get('/api/health', (req, res) => {

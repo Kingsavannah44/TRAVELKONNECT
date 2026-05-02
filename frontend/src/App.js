@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import LoadingSpinner from './components/LoadingSpinner';
 import ScrollToTop from './components/ScrollToTop';
+import WhatsAppButton from './components/WhatsAppButton';
 
 // Pages
 import Home from './pages/Home';
@@ -17,6 +18,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Jobs from './pages/Jobs';
 import JobDetails from './pages/JobDetails';
+import JobCreate from './pages/JobCreate';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Services from './pages/Services';
@@ -69,10 +71,32 @@ function AppContent() {
       <main className="pt-20 flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/jobs/:id" element={<JobDetails />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/:serviceId" element={<ServiceDetail />} />
+          <Route path="/jobs" element={
+            <ProtectedRoute>
+              <Jobs />
+            </ProtectedRoute>
+          } />
+          <Route path="/jobs/:id" element={
+            <ProtectedRoute>
+              <JobDetails />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/jobs/create" element={
+            <ProtectedRoute roles={['employer']}>
+              <JobCreate />
+            </ProtectedRoute>
+          } />
+          <Route path="/services" element={
+            <ProtectedRoute>
+              <Services />
+            </ProtectedRoute>
+          } />
+          <Route path="/services/:serviceId" element={
+            <ProtectedRoute>
+              <ServiceDetail />
+            </ProtectedRoute>
+          } />
           
           <Route path="/login" element={
             <PublicRoute>
@@ -88,6 +112,12 @@ function AppContent() {
           
           <Route path="/dashboard" element={
             <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/admin-dashboard" element={
+            <ProtectedRoute roles={['admin']}>
               <Dashboard />
             </ProtectedRoute>
           } />
@@ -108,9 +138,10 @@ function AppContent() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      
+
       <Footer />
-      
+      <WhatsAppButton />
+
       <Toaster
         position="top-right"
         toastOptions={{
@@ -130,7 +161,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Router>
+        <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
           <ScrollToTop />
           <AppContent />
         </Router>
