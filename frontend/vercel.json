@@ -1,8 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "NODE_OPTIONS='--no-deprecation' npm run build",
   "outputDirectory": "build",
-  "framework": "create-react-app",
-  "env": {
-    "NODE_OPTIONS": "--no-deprecation"
-  }
+  "framework": "create-react-app"
 }

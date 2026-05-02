@@ -11,7 +11,7 @@ import {
   ArrowRight,
   CheckCircle
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+
 
 const JobCreate = () => {
   const navigate = useNavigate();
