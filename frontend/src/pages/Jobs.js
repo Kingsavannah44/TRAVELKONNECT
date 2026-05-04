@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, DollarSign, Clock, Briefcase, ChevronRight, AlertCircle } from 'lucide-react';
+import axios from '../utils/axios';
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -19,20 +20,13 @@ const Jobs = () => {
         setLoading(true);
         setError(null);
 
-        // Build query parameters for API call
-        const params = new URLSearchParams();
-        if (filters.country) params.append('country', filters.country);
-        if (filters.truckType) params.append('truckType', filters.truckType);
-        if (searchTerm) params.append('search', searchTerm);
+        const params = {};
+        if (filters.country) params.country = filters.country;
+        if (filters.truckType) params.truckType = filters.truckType;
+        if (searchTerm) params.search = searchTerm;
 
-        const response = await fetch(`/api/jobs?${params.toString()}`);
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch jobs');
-        }
-
-        const data = await response.json();
-        setAllJobs(data.jobs || []);
+        const response = await axios.get('/api/jobs', { params });
+        setAllJobs(response.data.jobs || []);
       } catch (err) {
         console.error('Error fetching jobs:', err);
         setError('Failed to load jobs. Please try again later.');
@@ -193,7 +187,7 @@ const Jobs = () => {
                     </div>
                     <div className="flex items-center text-gray-400 text-sm">
                       <Clock className="h-4 w-4 mr-2 shrink-0" />
-                      <span className="capitalize">{job.jobType}</span>
+                      <span className="capitalize">{job.job_type}</span>
                     </div>
                   </div>
 
