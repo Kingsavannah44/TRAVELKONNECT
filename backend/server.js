@@ -8,16 +8,68 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
-// Import routes
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const jobRoutes = require('./routes/jobs');
-const applicationRoutes = require('./routes/applications');
-const paymentRoutes = require('./routes/payments');
-const uploadRoutes = require('./routes/upload');
+console.log('Starting server initialization...');
+
+// Import routes with error handling
+let authRoutes, userRoutes, jobRoutes, applicationRoutes, paymentRoutes, uploadRoutes;
+
+try {
+  authRoutes = require('./routes/auth');
+  console.log('✓ Auth routes loaded');
+} catch (e) {
+  console.error('✗ Error loading auth routes:', e.message);
+  process.exit(1);
+}
+
+try {
+  userRoutes = require('./routes/users');
+  console.log('✓ User routes loaded');
+} catch (e) {
+  console.error('✗ Error loading user routes:', e.message);
+  process.exit(1);
+}
+
+try {
+  jobRoutes = require('./routes/jobs');
+  console.log('✓ Job routes loaded');
+} catch (e) {
+  console.error('✗ Error loading job routes:', e.message);
+  process.exit(1);
+}
+
+try {
+  applicationRoutes = require('./routes/applications');
+  console.log('✓ Application routes loaded');
+} catch (e) {
+  console.error('✗ Error loading application routes:', e.message);
+  process.exit(1);
+}
+
+try {
+  paymentRoutes = require('./routes/payments');
+  console.log('✓ Payment routes loaded');
+} catch (e) {
+  console.error('✗ Error loading payment routes:', e.message);
+  process.exit(1);
+}
+
+try {
+  uploadRoutes = require('./routes/upload');
+  console.log('✓ Upload routes loaded');
+} catch (e) {
+  console.error('✗ Error loading upload routes:', e.message);
+  process.exit(1);
+}
 
 // Import middleware
-const { errorHandler } = require('./middleware/error');
+let errorHandler;
+try {
+  errorHandler = require('./middleware/error').errorHandler;
+  console.log('✓ Error handler loaded');
+} catch (e) {
+  console.error('✗ Error loading error handler:', e.message);
+  process.exit(1);
+}
 
 // Initialize Express app
 const app = express();
@@ -38,8 +90,8 @@ app.use(cors(corsOptions));
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
@@ -75,9 +127,10 @@ app.use(errorHandler);
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`Client URL: ${process.env.CLIENT_URL}`);
+  console.log(`\n✓ Server running on port ${PORT}`);
+  console.log(`✓ Environment: ${process.env.NODE_ENV}`);
+  console.log(`✓ Client URL: ${process.env.CLIENT_URL}`);
+  console.log('\nServer is ready to accept requests!\n');
 });
 
 module.exports = app;
