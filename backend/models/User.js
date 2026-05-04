@@ -11,16 +11,18 @@ class User {
     const hashedPassword = await bcrypt.hash(userData.password, 8);
     console.log('Password hashed');
 
-    // Transform camelCase keys to snake_case for database columns
-    const toSnakeCase = (str) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
-    const transformedData = Object.keys(userData).reduce((acc, key) => {
-      acc[toSnakeCase(key)] = userData[key];
-      return acc;
-    }, {});
-
     const { data, error } = await supabase
       .from('users')
-      .insert({ ...transformedData, password: hashedPassword, created_at: new Date(), updated_at: new Date() })
+      .insert({
+        email: userData.email,
+        password: hashedPassword,
+        role: userData.role,
+        profile: userData.profile,
+        payment_status: userData.paymentStatus,
+        payment_details: userData.paymentDetails,
+        created_at: new Date(),
+        updated_at: new Date()
+      })
       .select('id, created_at, updated_at')
       .single();
     console.log('Insert query completed');
