@@ -2,7 +2,7 @@
 echo "Starting Render deployment..."
 
 # Navigate to backend directory
-cd truck-driver-platform/backend || exit 1
+cd backend || exit 1
 
 # Install dependencies
 npm install
